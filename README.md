@@ -48,10 +48,68 @@ xat.FunctionName(your arg, function(response) {
 });
 ```
 <h1>Questions</h1>
-"The module doesn't work." - Follow and example an try again. (Module has been tested several times and it works.)<br />
+"The module doesn't work." - Follow an example and try again. (Module has been tested several times and it works.)<br />
 "How can I add new functions?" - Edit the xat.js file and do a new pull request. <br /> <br />
 Otherwise, open a new issue.
 -->
+
+# Xat Web API
+## Definitions
+* userid - id of user's profile.
+* regname - login of user's profile.
+* roomid - id of chat room.
+* groupname - name of group.
+* unified-groupname - groupname or "xat{roomid}".
+
+## ID and registered name converter
+`http://xat.me/{some string}?id={userid}&name={regname}`
+
+Converts id to regname or regname to id.
+
+#### Parameters
+* id (optional)
+* regname (optional)
+
+#### Return value
+If `id` specified, returns regname corresponds to `id`.
+If `name` specified, returns userid corresponds to `name`.
+If both `id` and `name` are specified, `id` is preferred.
+
+Format: raw string
+
+## Chat info
+`http://xat.com/web_gear/chat/roomid.php?d={unified-groupname}[&v2]`
+
+#### Parameters
+* unified-groupname
+* v{x} - version of method
+
+#### Return value
+##### Version 1
+roomid of group corresponds to groupname.
+
+Format: raw string
+
+##### Version 2
+Format: JSON Object
+
+Fields:
+* id - roomid
+* d - description of group
+* g - groupname
+* a - array of values, joined with ';=' **Note: it's a string, and should be splitted by ';='**
+    * a[0] - background (URI)
+    * a[3] - language
+    * a[4] - radio (URI)
+    * a[5] - buttons color (#{RGB-color})
+* n - unknown
+
+
+## Auser
+`http://xat.com/web_gear/chat/auser3.php?[u={userno}][&k={w_k2}][&t={random-number}]`
+
+#### Parameters
+
 <h1>Credits</h1>
 <ul>
     <li><a href="http://xat.com/">Xat.com</a> - for their API. (Otherwise, this library wouldn't exist.)</li>
