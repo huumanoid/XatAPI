@@ -89,6 +89,10 @@ exports.getNewInfo = (callback) => {
     var pawns	= [];
     var url 	= "http://xat.com/web_gear/chat/pow2.php?Sloom=" + Date.now(); // so we can have the latest page. (shrug)
     request(url, function(error, response, body) {
+        if (error) {
+          return callback(error);
+        }
+
         try {
             var json = JSON.parse(body);
         } catch (e) {
