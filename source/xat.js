@@ -160,12 +160,16 @@ exports.getNewUser = (callback) => {
         const { UserId, k1, k2 } = url.parse('?' + body, true).query
 
         if (UserId == null || k1 == null || k2 == null) {
-            return callback(new Error('Service error'))
+            const error = new Error('Invalid body')
+            error.body = body
+            return callback(error)
         }
 
-        if (UserId >= 1800000000
-            || k2 == 0) {
-            return callback(new Error('Refused'))
+        if (Number(UserId) >= 1800000000
+            || Number(k2) === 0) {
+            const error = new Error('Refused')
+            error.body = body
+            return callback(error)
         }
 
         const user = {

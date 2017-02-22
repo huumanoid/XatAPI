@@ -248,8 +248,9 @@ describe('getNewUser', () => {
   })
 
   it('should return error when server returns invalid user', (done) => {
+    const body = '&UserId=2123456789&k1=xxxxxxxx&k2=0'
     const request = makeRequestStub((_, cb) =>
-      cb(null, '&UserId=2123456789&k1=xxxxxxxx&k2=0'))
+      cb(null, body))
 
     const xatapi = proxyquire(API_PATH, { request })
 
@@ -257,20 +258,24 @@ describe('getNewUser', () => {
       assert.notEqual(null, err)
 
       assert(/refused/i.test(err.message))
+      assert.equal(body, err.body)
 
       done()
     })
   })
 
   it('should return error when server returns invalid response', (done) => {
+    const body = '<html><body>Hello!</body></html>'
+
     const request = makeRequestStub((_, cb) =>
-      cb(null, '<html><body>Hello!</body></html>'))
+      cb(null, body))
 
     const xatapi = proxyquire(API_PATH, { request })
 
     xatapi.getNewUser((err) => {
       assert.notEqual(null, err)
-      assert(/service/i.test(err.message))
+      assert(/invalid/i.test(err.message))
+      assert.equal(body, err.body)
 
       done()
     })
