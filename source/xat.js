@@ -88,13 +88,13 @@ exports.getChatInfo = (chat, callback) => {
 };
 
 exports.getNewInfo = (callback) => {
-    var name	= null;
-    var topsh	= [];
-    var pawns	= [];
-    var url 	= "http://xat.com/web_gear/chat/pow2.php?Sloom=" + Date.now(); // so we can have the latest page. (shrug)
+    let name	= null;
+    const topsh	= [];
+    const pawns	= [];
+    const url 	= "http://xat.com/web_gear/chat/pow2.php?Sloom=" + Date.now(); // so we can have the latest page. (shrug)
     request(url, function(error, response, body) {
         if (error) {
-          return callback(error);
+            return callback(error);
         }
 
         try {
@@ -102,29 +102,32 @@ exports.getNewInfo = (callback) => {
         } catch (e) {
             return callback(e);
         }
-        var id		= json[0][1]["id"];
-        var status	= json[0][1]["text"] == "" ? "UNLIMITED" : json[0][1]["text"].replace('[', '').replace(']', '');
-        for (var sm in json[4][1]) { // smileys list
-            if (id == json[4][1][sm]) {
+        const id		= json[0][1]["id"];
+        const status	= json[0][1]["text"] == ""
+            ? "UNLIMITED"
+            : json[0][1]["text"].replace('[', '').replace(']', '');
+
+        for (let sm in json[4][1]) { // smileys list
+            if (id === json[4][1][sm]) {
                 topsh.push(sm);
             }
         }
-        for (var nm in json[6][1]) { // power name
-            if (id == json[6][1][nm]) {
+        for (let nm in json[6][1]) { // power name
+            if (id === json[6][1][nm]) {
                 name = nm;
             }
         }
-        for (var pw in json[7][1]) { // pawns name
-            if (id == json[7][1][pw][0]) {
-                pawns.push("hat#h" + pw);
+        for (let pw in json[7][1]) { // pawns name
+            if (id === json[7][1][pw][0]) {
+                pawns.push(pw);
             }
         }
         callback(null, {
             'id': id,
             'name': name,
             'status': status,
-            'topsh': topsh.length == 0 ? nm : topsh.join(","),
-            'pawns': pawns.length == 0 ? null : pawns.join(",")
+            'topsh': topsh.length === 0 ? [name] : topsh,
+            'pawns': pawns.length === 0 ? null : pawns,
         });
     });
 };
