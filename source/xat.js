@@ -84,11 +84,11 @@ exports.getChatInfo = (chat, callback) => {
 };
 
 exports.getNewInfo = (callback) => {
-	var name	= null;
-	var topsh	= [];
-	var pawns	= [];
-	var url 	= "http://xat.com/web_gear/chat/pow2.php?Sloom=" + Date.now(); // so we can have the latest page. (shrug)
-	request(url, function(error, response, body) {
+    var name	= null;
+    var topsh	= [];
+    var pawns	= [];
+    var url 	= "http://xat.com/web_gear/chat/pow2.php?Sloom=" + Date.now(); // so we can have the latest page. (shrug)
+    request(url, function(error, response, body) {
         try {
             var json = JSON.parse(body);
         } catch (e) {
@@ -118,7 +118,7 @@ exports.getNewInfo = (callback) => {
             'topsh': topsh.length == 0 ? nm : topsh.join(","),
             'pawns': pawns.length == 0 ? null : pawns.join(",")
         });
-	});
+    });
 };
 
 exports.getChatConnection = (chatID, callback) => {
