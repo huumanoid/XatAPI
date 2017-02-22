@@ -7,8 +7,12 @@ const request 	= require('request');
 const admins	= { 7: 'Darren', 42: 'Xat', 99: 'ChrisRixon', 100: 'Sam', 101: 'Chris', 804: 'Bot' };
 const adminsN	= { 'Darren': 7, 'Xat': 42, 'ChrisRixon': 99, 'Sam': 100, 'Chris': 101 };
 
+const isEmpty = (value) => value == null || value === ''
+const isNumeric = (value) => !isEmpty(value) && !isNaN(value)
+const isNonNumeric = (value) => !isEmpty(value) && isNaN(value)
+
 exports.getRegname = (id, callback) => {
-    if ((id == undefined) || (id == '') || (isNaN(id))) {
+    if (!isNumeric(id)) {
         return setImmediate(() =>
             callback(new Error("You must specify an ID in your request or ID must be numeric.")));
     }
@@ -30,7 +34,7 @@ exports.getRegname = (id, callback) => {
 };
 
 exports.getID = (reg, callback) => {
-    if ((reg == undefined) || (reg == '') || (!isNaN(reg))) {
+    if (!isNonNumeric(reg)) {
         return setImmediate(() =>
             callback(new Error("You must specify a regname in your request.")));
     }
@@ -52,7 +56,7 @@ exports.getID = (reg, callback) => {
 };
 
 exports.getChatInfo = (chat, callback) => {
-    if ((chat == undefined) || (chat == "")) {
+    if (isEmpty(chat)) {
         return setImmediate(() =>
             callback(new Error("You must add a chat name to your request.")));
     }
@@ -126,7 +130,7 @@ exports.getNewInfo = (callback) => {
 };
 
 exports.getChatConnection = (chatID, callback) => {
-    if ((chatID == undefined) || (chatID == "") || (isNaN(chatID))) {
+    if (!isNumeric(chatID)) {
         return setImmediate(() =>
           callback(new Error("You must add a chat ID to your request.")));
     }
