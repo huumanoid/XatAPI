@@ -145,7 +145,7 @@ describe('getNewInfo', () => {
       assert.equal('lovetest', res.name)
       assert.equal('LIMITED', res.status)
       assert.deepEqual(['lovetest'], res.topsh)
-      assert.deepEqual(['ht'], res.pawns)
+      assert.deepEqual(['t'], res.pawns)
 
       done()
     })
